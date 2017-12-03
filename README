@@ -6,3 +6,4 @@ and mark and sweep garbage collection
 memtest/	using automatic DAG (use libbase)
 memtest2/	using c structure
 testing/	bootstrap
+export/     binaries
