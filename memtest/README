@@ -3,17 +3,17 @@ Tracing Garbage collection timing
 -----------------------------------
 tree_manager_init(32 * 1024 * 1024, MEM_TYPE_TREE|0x10);
 
- generated tree 32768 zones in 235 ms 
- deleted tree 0 zones left in 1128 ms 
+generated tree 49152 zones in 905 ms 
+deleted tree 0 zones left in 1659 ms 
 
- generated tree 32768 zones in 239 ms 
- deleted tree 0 zones left in 1140 ms 
+generated tree 49152 zones in 904 ms 
+deleted tree 0 zones left in 1668 ms 
 
- generated tree 32768 zones in 234 ms 
- deleted tree 0 zones left in 1134 ms 
+generated tree 49152 zones in 883 ms 
+deleted tree 0 zones left in 1644 ms 
 
- generated tree 32768 zones in 230 ms 
- deleted tree 0 zones left in 1128 ms 
+generated tree 49152 zones in 893 ms 
+deleted tree 0 zones left in 1653 ms 
 
  
 -----------------------------------
@@ -22,15 +22,15 @@ Reference counter timing
 
 tree_manager_init(32 * 1024 * 1024, MEM_TYPE_TREE);
 
-generated tree 32768 zones in 248 ms 
-deleted tree 0 zones left in 67676 ms 
+generated tree 49152 zones in 911 ms 
+deleted tree 0 zones left in 9488 ms 
 
-generated tree 32768 zones in 240 ms 
-deleted tree 0 zones left in 67667 ms 
+generated tree 49152 zones in 900 ms 
+deleted tree 0 zones left in 9512 ms 
 
-generated tree 32768 zones in 241 ms 
-deleted tree 0 zones left in 67615 ms 
+generated tree 49152 zones in 919 ms 
+deleted tree 0 zones left in 9468 ms 
 
-generated tree 32768 zones in 238 ms 
-deleted tree 0 zones left in 67916 ms 
+generated tree 49152 zones in 911 ms 
+deleted tree 0 zones left in 9473 ms 
 
