@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testing", "testing\testing.vcxproj", "{C4948253-1C51-4B94-89E5-92BA7C6D32A2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcon", "libcon\libcon.vcxproj", "{1BF22E35-0C64-47D5-8729-98B771920D12}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbase", "libbase\libbase.vcxproj", "{874AB0FB-B005-4336-B786-12475211B2F2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "memtest", "memtest\memtest.vcxproj", "{4F3A04DE-67ED-415B-94F9-4523FBBE1C6D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "memtest2", "memtest2\memtest2.vcxproj", "{D5175BB0-D4FF-4CE1-A8F3-59912142F4DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4948253-1C51-4B94-89E5-92BA7C6D32A2}.Release|x86.ActiveCfg = Release|Win32
+		{C4948253-1C51-4B94-89E5-92BA7C6D32A2}.Release|x86.Build.0 = Release|Win32
+		{1BF22E35-0C64-47D5-8729-98B771920D12}.Release|x86.ActiveCfg = Release|Win32
+		{1BF22E35-0C64-47D5-8729-98B771920D12}.Release|x86.Build.0 = Release|Win32
+		{874AB0FB-B005-4336-B786-12475211B2F2}.Release|x86.ActiveCfg = Release|Win32
+		{874AB0FB-B005-4336-B786-12475211B2F2}.Release|x86.Build.0 = Release|Win32
+		{4F3A04DE-67ED-415B-94F9-4523FBBE1C6D}.Release|x86.ActiveCfg = Release|Win32
+		{4F3A04DE-67ED-415B-94F9-4523FBBE1C6D}.Release|x86.Build.0 = Release|Win32
+		{D5175BB0-D4FF-4CE1-A8F3-59912142F4DC}.Release|x86.ActiveCfg = Release|Win32
+		{D5175BB0-D4FF-4CE1-A8F3-59912142F4DC}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2259EC8D-9230-4489-A08F-F7D1D4F0C06E}
+	EndGlobalSection
+EndGlobal

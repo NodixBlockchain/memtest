@@ -165,9 +165,11 @@ static __inline void copy_vec4u_c	(vec_4uc_t d,const vec_4uc_t s)
 	d[3]=s[3];
 }
 
-LIBC_API void			C_API_FUNC release_zone_ref	(mem_zone_ref_ptr zone_ref);
-LIBC_API void			C_API_FUNC dec_zone_ref		(mem_zone_ref_ptr zone_ref);
-LIBC_API unsigned int	C_API_FUNC  inc_zone_ref(mem_zone_ref_ptr zone_ref);
+LIBC_API void			C_API_FUNC  release_zone_ref	(mem_zone_ref_ptr zone_ref);
+LIBC_API void			C_API_FUNC  dec_zone_ref		(mem_zone_ref_ptr zone_ref);
+LIBC_API unsigned int   C_API_FUNC	inc_zone_ref		(mem_zone_ref_ptr zone_ref);
+LIBC_API mem_size	    C_API_FUNC	set_zone_free		(mem_zone_ref_ptr ref, zone_free_func_ptr	free_func);
+
 
 #ifdef __cplusplus
 	}

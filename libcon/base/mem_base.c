@@ -1353,10 +1353,15 @@ OS_API_C_FUNC(void) release_zone_ref(mem_zone_ref *zone_ref)
 OS_API_C_FUNC(void) copy_zone_ref(mem_zone_ref_ptr dest_zone_ref,const mem_zone_ref *zone_ref)
 {
 	mem_zone *zone = dest_zone_ref->zone;
+	int area_type;
 
+	if (zone_ref->zone == PTR_NULL)
+		area_type = get_area(((mem_zone *)(dest_zone_ref->zone))->area_id)->type;
+	else
+		area_type = get_area(((mem_zone *)(zone_ref->zone))->area_id)->type;
 	
 	
-	if ( (zone_ref->zone == PTR_NULL)|| ((get_area(((mem_zone *)(zone_ref->zone))->area_id)->type & 0x10) != 0))
+	if ((area_type & 0x10) != 0)
 	{
 		dest_zone_ref->zone = zone_ref->zone;
 		return;

@@ -54,6 +54,7 @@ int main(int argc, const char **argv)
 	tpo_mod_init(&memtest_mod);
 	load_module("modz/libbase.tpo", "libbase", &libbase_mod);
 	load_module("modz/memtest.tpo", "memtest", &memtest_mod);
+	//load_module("modz/memtest2.tpo", "memtest2", &memtest_mod);
 
 #ifndef _DEBUG
 	tree_manager_init = (tree_manager_init_func_ptr)get_tpo_mod_exp_addr_name(&libbase_mod, "tree_manager_init", 0);;
