@@ -1,0 +1,10 @@
+
+memtest.tpo  : automatic DAG with tracing GC
+
+memtest_rc.tpo  : automatic DAG with reference counter
+
+memtest2.tpo  : c structure with tracing GC
+
+memtest2_rc.tpo  : c structure with reference counter
+
+swap memtest*.tpo with memtest*_rc.tpo to use reference counter.
