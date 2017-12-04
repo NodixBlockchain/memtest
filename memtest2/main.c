@@ -1,3 +1,5 @@
+// C program to demonstrate delete operation in binary search tree
+
 #include <base/std_def.h>
 #include <base/std_mem.h>
 #include <base/mem_base.h>
@@ -10,9 +12,8 @@
 #include <fsio.h>
 
 #include <tree.h>
-// C program to demonstrate delete operation in binary search tree
-#include<stdio.h>
-#include<stdlib.h>
+
+
 
 struct node
 {
@@ -28,7 +29,7 @@ unsigned int aid = 0xFFFFF;
 int C_API_FUNC do_mark_node(mem_zone_ref_ptr node, unsigned int scan_id)
 {
 	struct node *tnode;
-	tnode = (struct node *) get_zone_ptr(node, 0); //(struct node *)tree_mamanger_get_node_data_ptr(node, 0);
+	tnode = (struct node *) get_zone_ptr(node, 0);
 
 	if(tnode->left.zone!=PTR_NULL)
 		mark_zone(tnode->left.zone , scan_id);
@@ -43,7 +44,7 @@ int C_API_FUNC do_free_node(mem_zone_ref_ptr node, unsigned int scan_id)
 {
 	struct node *tnode;
 	
-	tnode = (struct node *)get_zone_ptr(node, 0); //(struct node *)tree_mamanger_get_node_data_ptr(node, 0);
+	tnode = (struct node *)get_zone_ptr(node, 0);
 
 	release_zone_ref(&tnode->left);
 	release_zone_ref(&tnode->right);
@@ -376,8 +377,6 @@ OS_API_C_FUNC(int) app_loop(mem_zone_ref_ptr params)
 	tree_manager_set_child_value_i32(&log, "et", end - tree_end);
 	log_message						("deleted tree %nz% zones left in %et% ms ", &log);
 	release_zone_ref				(&log);
-
-	//tree_manager_dump_node_rec(&root, 0, 16);
 
 
 	return 1;
