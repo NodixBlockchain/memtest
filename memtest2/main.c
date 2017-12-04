@@ -28,7 +28,7 @@ unsigned int aid = 0xFFFFF;
 int C_API_FUNC do_mark_node(mem_zone_ref_ptr node, unsigned int scan_id)
 {
 	struct node *tnode;
-	tnode = (struct node *)tree_mamanger_get_node_data_ptr(node, 0);
+	tnode = (struct node *) get_zone_ptr(node, 0); //(struct node *)tree_mamanger_get_node_data_ptr(node, 0);
 
 	if(tnode->left.zone!=PTR_NULL)
 		mark_zone(tnode->left.zone , scan_id);
@@ -42,7 +42,8 @@ int C_API_FUNC do_mark_node(mem_zone_ref_ptr node, unsigned int scan_id)
 int C_API_FUNC do_free_node(mem_zone_ref_ptr node, unsigned int scan_id)
 {
 	struct node *tnode;
-	tnode = (struct node *)tree_mamanger_get_node_data_ptr(node, 0);
+	
+	tnode = (struct node *)get_zone_ptr(node, 0); //(struct node *)tree_mamanger_get_node_data_ptr(node, 0);
 
 	release_zone_ref(&tnode->left);
 	release_zone_ref(&tnode->right);
@@ -61,20 +62,14 @@ mem_zone_ref newNode(int item)
 	tnode.left.zone		= PTR_NULL;
 	tnode.right.zone	= PTR_NULL;
 
-
-	tree_manager_create_node		("node", NODE_GFX_SIGNED_INT, &my_node);
-	tree_manager_write_node_data	(&my_node, &tnode, 0, sizeof(struct node));
+	allocate_new_zone				(aid, sizeof(struct node), &my_node);
+	memcpy_c						(get_zone_ptr(&my_node,0), &tnode, sizeof(struct node));
 
 	if((area_type(aid)&0x10)==0)
 		set_zone_free			(&my_node, do_free_node);
 	else
 		set_zone_free			(&my_node, do_mark_node);
 
-	/*
-	struct node *temp = (struct node *)malloc(sizeof(struct node));
-	temp->key = item;
-	temp->left = temp->right = NULL;
-	*/
 	return my_node;
 }
 
@@ -86,7 +81,7 @@ void inorder(mem_zone_ref root)
 	{
 		char buff[16];
 		struct node *tnode;
-		tnode = (struct node *)tree_mamanger_get_node_data_ptr(&root, 0);
+		tnode =(struct node *) get_zone_ptr(&root, 0);
 		inorder(tnode->left);
 		uitoa_s(tnode->key, buff, 16, 10);
 		console_print(buff);
@@ -103,7 +98,7 @@ mem_zone_ref insert(mem_zone_ref_ptr my_node, int key)
 	/* If the tree is empty, return a new node */
 	if (my_node->zone == NULL) return newNode(key);
 
-	tnode = (struct node *)tree_mamanger_get_node_data_ptr(my_node,0);
+	tnode = (struct node *)get_zone_ptr(my_node, 0);
 
 	/* Otherwise, recur down the tree */
 	if (key < tnode->key)
@@ -129,14 +124,14 @@ need to be searched. */
 mem_zone_ref minValueNode(mem_zone_ref_ptr my_node)
 {
 	mem_zone_ref	left = { PTR_NULL };
-	struct node *current = (struct node *)tree_mamanger_get_node_data_ptr(my_node, 0);
+	struct node *current = (struct node *)get_zone_ptr(my_node, 0);
 
 	/* loop down to find the leftmost leaf */
 	while (current->left.zone!=PTR_NULL)
 	{
 		copy_zone_ref		(my_node ,&current->left);
 		release_zone_ref	(&current->left);
-		current = tree_mamanger_get_node_data_ptr(my_node, 0);
+		current = (struct node *)get_zone_ptr(my_node, 0);
 	}
 
 	return (*my_node);
@@ -153,13 +148,7 @@ mem_zone_ref deleteNode(mem_zone_ref_ptr root, int key)
 	}
 	
 	/* If the tree is empty, return a new node */
-	tnode = (struct node *)tree_mamanger_get_node_data_ptr(root, 0);
-
-	if (tnode == PTR_INVALID)
-	{
-		mem_zone_ref tmp = { PTR_NULL };
-		return tmp;
-	}
+	tnode = (struct node *)get_zone_ptr(root, 0);
 	// If the key to be deleted is smaller than the root's key,
 	// then it lies in left subtree
 
@@ -177,7 +166,6 @@ mem_zone_ref deleteNode(mem_zone_ref_ptr root, int key)
 	else if (key > tnode->key)
 	{
 		mem_zone_ref new_right = deleteNode(&tnode->right, key);
-
 		if (tnode->right.zone != new_right.zone)
 		{
 			copy_zone_ref	(&tnode->right, &new_right);
@@ -195,9 +183,6 @@ mem_zone_ref deleteNode(mem_zone_ref_ptr root, int key)
 		if (tnode->left.zone==PTR_NULL)
 		{
 			mem_zone_ref tmp = { PTR_NULL };
-
-			if (tnode->right.zone == PTR_NULL)return tnode->right;
-
 			copy_zone_ref	(&tmp,&tnode->right);
 			release_zone_ref(root);
 			return tmp;
@@ -205,13 +190,9 @@ mem_zone_ref deleteNode(mem_zone_ref_ptr root, int key)
 		else if (tnode->right.zone == PTR_NULL)
 		{
 			mem_zone_ref tmp = { PTR_NULL };
-
-			if (tnode->left.zone == PTR_NULL)return tnode->left;
-
-			copy_zone_ref(&tmp, &tnode->left);
+			copy_zone_ref	(&tmp, &tnode->left);
 			release_zone_ref(root);
 			return tmp;
-
 		}
 
 		// node with two children: Get the inorder successor (smallest
@@ -219,7 +200,7 @@ mem_zone_ref deleteNode(mem_zone_ref_ptr root, int key)
 
 		mem_zone_ref temp = minValueNode(&tnode->right);
 
-		tmpnode = (struct node *)tree_mamanger_get_node_data_ptr(&temp, 0);
+		tmpnode = (struct node *)get_zone_ptr(&temp, 0);
 		// Copy the inorder successor's content to this node
 		tnode->key = tmpnode->key;
 		release_zone_ref(&temp);
@@ -227,7 +208,6 @@ mem_zone_ref deleteNode(mem_zone_ref_ptr root, int key)
 		//root->key = temp->key;
 
 		new_right	= deleteNode(&tnode->right, tnode->key);
-
 		if (tnode->right.zone != new_right.zone)
 		{
 			copy_zone_ref	(&tnode->right, &new_right);
@@ -256,7 +236,7 @@ mem_zone_ref sortedArrayToBST(int arr[],int start, int end)
 		
 	root = newNode(arr[mid]);
 	
-	tnode = (struct node *)tree_mamanger_get_node_data_ptr(&root, 0);
+	tnode = (struct node *)get_zone_ptr(&root, 0);
 
 	/* Recursively construct the left subtree and make it
 	left child of root */
@@ -283,24 +263,18 @@ void generate_tree(mem_zone_ref_ptr rootNode,size_t num)
 	}
 	(*rootNode) = sortedArrayToBST(vals, 0, num - 1);
 	free_c(vals);
-
-
-	//tree_manager_dump_node_rec(&root, 0, 16);
-
 }
 
 OS_API_C_FUNC(int) app_init(mem_zone_ref_ptr params)
 {
 
-	tree_manager_init(32 * 1024 * 1024, MEM_TYPE_TREE);
+	tree_manager_init(32 * 1024 * 1024, MEM_TYPE_TREE|0x10);
 	return 1;
 }	
 
 
 OS_API_C_FUNC(int) app_start(mem_zone_ref_ptr params)
 {
-
-
 	return 1;
 }
 
@@ -312,8 +286,6 @@ OS_API_C_FUNC(int) app_loop(mem_zone_ref_ptr params)
 	int				incr;
 	size_t			nz,nnz;
 	ctime_t			start,tree_end,end,elapsed;
-
-
 	
 
 	aid		= get_tree_mem_area_id();
@@ -324,12 +296,9 @@ OS_API_C_FUNC(int) app_loop(mem_zone_ref_ptr params)
 	generate_tree		(&rootNode,cnt);
 	get_system_time_c	(&tree_end);
 
-//	do_mark_sweep		(aid, 0);
-
-	
-
-	//inorder(rootNode);
-	//console_print("\n");
+	do_mark_sweep		(aid, 0);
+	//inorder			(rootNode);
+	//console_print		("\n");
 	
 	nz = find_zones_used			(aid);
 
@@ -379,7 +348,7 @@ OS_API_C_FUNC(int) app_loop(mem_zone_ref_ptr params)
 		cnt -= incr;
 		do_mark_sweep(aid,0);
 
-		
+		/*
 		nnz = find_zones_used(aid);
 		get_system_time_c(&end);
 		
@@ -390,13 +359,12 @@ OS_API_C_FUNC(int) app_loop(mem_zone_ref_ptr params)
 		release_zone_ref(&log);
 		log.zone = PTR_NULL;
 		nz = nnz;
-		
+		*/
 
 		/*
 		inorder(rootNode);
 		console_print("\n");
 		*/
-
 	}
 	
 	

@@ -1355,6 +1355,8 @@ OS_API_C_FUNC(void) copy_zone_ref(mem_zone_ref_ptr dest_zone_ref,const mem_zone_
 	mem_zone *zone = dest_zone_ref->zone;
 	int area_type;
 
+	if ((zone_ref->zone == PTR_NULL) && (dest_zone_ref->zone == PTR_NULL))return;
+
 	if (zone_ref->zone == PTR_NULL)
 		area_type = get_area(((mem_zone *)(dest_zone_ref->zone))->area_id)->type;
 	else
